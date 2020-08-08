@@ -1,0 +1,14 @@
+# Prevent git from crashing by committing 1000s of files.
+node_modules/
+
+# Don't commit private environment variables.
+.env
+
+# Usually people commit this file, but I prefer to avoid committing this file
+# It tells npm to lock to a specific version of dependencies and I always use the latest one.
+package-lock.json
+
+# Editor specific files.
+.editorConfig
+.vscode/
+Project Julis.code-workspace
