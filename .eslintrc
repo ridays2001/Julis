@@ -1,0 +1,38 @@
+{
+	"extends": "aqua/node",
+	"parserOptions": {
+		"ecmaVersion": 2020
+	},
+	"env": {
+		"amd": true,
+		"es2020": true,
+		"node": true
+	},
+    "rules": {
+        "no-confusing-arrow": "off",
+        "no-eq-null": "off",
+        "no-negated-condition": "off",
+        "no-undefined": "off",
+        "linebreak-style":"off",
+        "camelcase":"off",
+        "no-shadow":"off",
+        "no-unused-vars":"off",
+        "prefer-const":"error",
+        "prefer-destructuring": [
+            "off"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+		"quote-props": "off",
+		"max-len": [
+			"error",
+			{
+				"code": 120,
+				"ignoreUrls": true
+			}
+		],
+		"guard-for-in": "off"
+    }
+}
