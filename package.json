@@ -24,10 +24,12 @@
   "homepage": "https://github.com/ridays2001/Julis#readme",
   "dependencies": {
     "@sentry/node": "^5.20.1",
+    "color-name-list": "^6.5.1",
     "discord-akairo": "^8.0.0",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "firebase-admin": "^9.0.0",
+    "nearest-color": "^0.4.4",
     "node-fetch": "^2.6.0",
     "winston": "^3.3.3"
   },
