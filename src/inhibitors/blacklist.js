@@ -1,4 +1,5 @@
 const { Inhibitor } = require('discord-akairo');
+const { Message } = require('discord.js');
 
 class BlackListInhibitor extends Inhibitor {
 	constructor() {
