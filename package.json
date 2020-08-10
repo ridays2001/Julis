@@ -29,6 +29,7 @@
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "firebase-admin": "^9.0.0",
+    "firestore-db": "^1.0.5",
     "nearest-color": "^0.4.4",
     "node-fetch": "^2.6.0",
     "winston": "^3.3.3"
