@@ -5,6 +5,7 @@ const namedColors = require('color-name-list');
 const { firestore } = require('../struct/Database');
 const uDataProvider = require('../struct/uDataProvider');
 const gDataProvider = require('../struct/gDataProvider');
+const { prefColor, prefName } = require('../util/preferences');
 
 class JulisClient extends AkairoClient {
 	constructor() {
@@ -61,6 +62,22 @@ class JulisClient extends AkairoClient {
 			const nearestNamedColor = nearestColor.from(colors);
 			return nearestNamedColor(color);
 		};
+
+		/**
+		 * @description A function to find out the preferred color for an embed.
+		 * @param {User} user - The user object.
+		 * @param {Guild} guild - The guild object.
+		 * @returns {string} - The color string.
+		 */
+		this.prefColor = (user, guild) => prefColor(user, guild, this);
+
+		/**
+		 * @description Function to find out the preferred name of a user.
+		 * @param {Message} msg - The message object.
+		 * @param {boolean} ignoreNicknames - Ignore nicknames for special cases.
+		 * @returns {string} - The name string.
+		 */
+		this.prefName = (msg, ignoreNicknames) => prefName(msg, ignoreNicknames, this);
 
 		this.gData = new uDataProvider(firestore.collection('uData'));
 		this.uData = new gDataProvider(firestore.collection('gData'));
