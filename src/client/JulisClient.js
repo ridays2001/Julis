@@ -1,4 +1,5 @@
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = require('discord-akairo');
+const { User, Guild, Message } = require('discord.js');
 const nearestColor = require('nearest-color');
 const namedColors = require('color-name-list');
 
@@ -79,8 +80,8 @@ class JulisClient extends AkairoClient {
 		 */
 		this.prefName = (msg, ignoreNicknames) => prefName(msg, ignoreNicknames, this);
 
-		this.gData = new uDataProvider(firestore.collection('uData'));
-		this.uData = new gDataProvider(firestore.collection('gData'));
+		this.uData = new uDataProvider(firestore.collection('uData'));
+		this.gData = new gDataProvider(firestore.collection('gData'));
 	}
 
 	async start() {
