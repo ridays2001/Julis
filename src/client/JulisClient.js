@@ -24,7 +24,7 @@ class JulisClient extends AkairoClient {
 			fetchMembers: true, // Cache members of servers. Disable if you're facing cache issues.
 			handleEdits: true, // This allows the bot to listen to message edits and manage commands accordingly.
 			aliasReplacement: /-/g, // Replace the - in the command aliases.
-			prefix: process.env.PREFIX, // Set the prefix of the bot.
+			prefix: message => this.gData.get(message.guild, 'prefix', process.env.PREFIX), // Set the prefix.
 			argumentDefaults: { // Set some defaults of all arguments.
 				prompt: {
 					timeout: 'Time\'s up!',
