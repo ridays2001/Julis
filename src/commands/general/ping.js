@@ -11,7 +11,7 @@ class PingCommand extends Command {
 				guide: message => {
 					// This sends a guide message for the commands. [Not yet implemented].
 					const guide = new MessageEmbed();
-					guide.setColor(process.env.COLOR)
+					guide.setColor(this.client.prefColor(message.author, message.guild))
 						.setTitle(`Guide to use **${this.id}** command.`)
 						.addField(`\`@Julis ${this.aliases[0]}\``, 'To get my ping speed from the server.')
 						.setTimestamp();
