@@ -2,6 +2,10 @@ const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = requ
 const nearestColor = require('nearest-color');
 const namedColors = require('color-name-list');
 
+const { firestore } = require('../struct/Database');
+const uDataProvider = require('../struct/uDataProvider');
+const gDataProvider = require('../struct/gDataProvider');
+
 class JulisClient extends AkairoClient {
 	constructor() {
 		super({ ownerID: process.env.OwnerID }, {
@@ -57,9 +61,16 @@ class JulisClient extends AkairoClient {
 			const nearestNamedColor = nearestColor.from(colors);
 			return nearestNamedColor(color);
 		};
+
+		this.gData = new uDataProvider(firestore.collection('uData'));
+		this.uData = new gDataProvider(firestore.collection('gData'));
 	}
 
 	async start() {
+		// Initialize the database instances.
+		await this.gData.init();
+		await this.uData.init();
+
 		// Login to the Discord API and start the bot.
 		return this.login(process.env.TOKEN);
 	}
