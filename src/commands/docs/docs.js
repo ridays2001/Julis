@@ -36,6 +36,7 @@ class DocsCommand extends Command {
 					const guide = new MessageEmbed();
 					guide.setColor(this.client.prefColor(message.author, message.guild))
 						.setTitle(`Guide to use **${this.id}** command.`)
+						.setDescription('This command is used to fetch the Discord.js documentation from the Djs docs.')
 						.addField(`\`@Julis ${this.aliases[0]} <query>\``, 'Search Discord.js documentation.')
 						.addField(`\`@Julis ${this.aliases[0]} <query> <version>\``, 'Advanced documentation search.')
 						.addField(`\`@Julis -f ${this.aliases[0]} <query>\``, 'List out hidden attributes.')

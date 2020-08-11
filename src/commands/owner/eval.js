@@ -27,10 +27,7 @@ class EvalCommand extends Command {
 			],
 			ownerOnly: true,
 			quoted: false,
-			description: {
-				content: 'Evaluates JS code.',
-				usage: '<code>'
-			}
+			description: { content: 'Evaluates JS code.' }
 		});
 	}
 

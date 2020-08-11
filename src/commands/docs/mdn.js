@@ -43,6 +43,7 @@ class MDNCommand extends Command {
 					const guide = new MessageEmbed();
 					guide.setColor(this.client.prefColor(message.author, message.guild))
 						.setTitle(`Guide to use **${this.id}** command.`)
+						.setDescription('This command is used to fetch javascript documentation from the MDN docs.')
 						.addField(`\`@Julis ${this.aliases[0]} <query>\``, 'To search MDN JavaScript documentation.')
 						.addField(`\`@Julis --full ${this.aliases[0]} <query>\``, 'Get the extended documentation.')
 						.setTimestamp();

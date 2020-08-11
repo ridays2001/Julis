@@ -35,7 +35,9 @@ class NPMCommand extends Command {
 					const guide = new MessageEmbed();
 					guide.setColor(this.client.prefColor(message.author, message.guild))
 						.setTitle(`Guide to use **${this.id}** command.`)
-						.setDescription('This commands fetches the data about npm packages from the npm registry.')
+						.setDescription(
+							'This command is used to fetch the data about npm packages from the npm registry.'
+						)
 						.addField(`\`@Julis ${this.aliases[0]} <package>\``, 'Get information about a npm package.')
 						.setTimestamp();
 					return guide;
