@@ -66,8 +66,8 @@ class JulisClient extends AkairoClient {
 
 		/**
 		 * @description A function to find out the preferred color for an embed.
-		 * @param {User} user - The user object.
-		 * @param {Guild} guild - The guild object.
+		 * @param {User} [user] - The user object.
+		 * @param {Guild} [guild] - The guild object.
 		 * @returns {string} - The color string.
 		 */
 		this.prefColor = (user, guild) => prefColor(user, guild, this);
