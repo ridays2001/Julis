@@ -21,6 +21,12 @@ class MDNCommand extends Command {
 						cancel: 'Okie. I won\'t search anything.'
 					},
 					match: 'rest',
+					/**
+					 * @description - A function to format the input query.
+					 * @param {Message} _ - The message object.
+					 * @param {string} query - The query string, unformatted.
+					 * @returns {string} - The formatted query string.
+					*/
 					type: (_, query) => query ? query.replace(/#/g, '.prototype.') : null
 				}
 			],
@@ -28,6 +34,11 @@ class MDNCommand extends Command {
 			category: 'docs',
 			description: {
 				content: 'Search MDN documentation for guidance.',
+				/**
+				 * @description - A function to send an embed guide for the command.
+				 * @param {Message} message - The message object.
+				 * @returns {MessageEmbed} - The guide as an embed.
+				*/
 				guide: message => {
 					const guide = new MessageEmbed();
 					guide.setColor(this.client.prefColor(message.author, message.guild))
