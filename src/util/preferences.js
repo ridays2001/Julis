@@ -25,8 +25,8 @@ module.exports = {
 
 	/**
 	 * @description Returns the preferred color for an embed.
-	 * @param {User} user - User object.
-	 * @param {Guild} guild - Guild object.
+	 * @param {User} [user] - User object.
+	 * @param {Guild} [guild] - Guild object.
 	 * @param {AkairoClient} [client] - Client object.
 	 * @returns {string} - Color.
 	*/
