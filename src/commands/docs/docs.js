@@ -67,7 +67,7 @@ class DocsCommand extends Command {
 			return message.util.send({
 				embed: {
 					author: {
-						name: `${this.client.prefName(message)}, I couldn\'t find what you were looking for.`,
+						name: `${this.client.prefName(message)}, I couldn\'t find that anywhere in the docs.`,
 						icon_url: message.author.displayAvatarURL()
 					},
 					color: this.client.prefColor(message.author, message.guild)
@@ -114,7 +114,7 @@ class DocsCommand extends Command {
 			// Else remove the reactions.
 			return msg.reactions.removeAll();
 		}
-		// Delete the message if no errors are raised.
+		// Delete the message if there is a reaction and no errors are raised.
 		return react.first().message.delete();
 	}
 }
