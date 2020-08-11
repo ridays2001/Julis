@@ -1,5 +1,6 @@
 const { Listener } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
+const logger = require('../util/logger');
 
 class ReadyListener extends Listener {
 	constructor() {
@@ -16,8 +17,8 @@ class ReadyListener extends Listener {
 		const channels = `${this.client.channels.cache.size} channels`;
 
 		// Log ready information to the console.
-		console.log(`Woke up in ${guilds}, with ${users} in ${channels}.`);
-		console.log(`I am ${this.client.user.tag}`);
+		logger.info(`Woke up in ${guilds}, with ${users} in ${channels}.`);
+		logger.info(`I am ${this.client.user.tag}.`);
 
 		// Set the bot activity.
 		this.client.user.setActivity('💙Amor Omnia Vincit❤️'); // Latin for "Love conquers everything".
