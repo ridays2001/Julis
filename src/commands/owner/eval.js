@@ -9,6 +9,7 @@ const { MessageEmbed, Message } = require('discord.js');
 
 // To use during eval;
 const { firestore } = require('../../struct/Database');
+const logger = require('../../util/logger');
 
 class EvalCommand extends Command {
 	constructor() {
