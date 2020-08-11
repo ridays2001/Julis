@@ -27,6 +27,11 @@ class DocsCommand extends Command {
 			category: 'docs',
 			description: {
 				content: 'Search in documentation for guidance.',
+				/**
+				 * @description - A function to send an embed guide for the command.
+				 * @param {Message} message - The message object.
+				 * @returns {MessageEmbed} - The guide as an embed.
+				*/
 				guide: message => {
 					const guide = new MessageEmbed();
 					guide.setColor(this.client.prefColor(message.author, message.guild))
@@ -62,7 +67,7 @@ class DocsCommand extends Command {
 		const queryString = qs.stringify({ src: source, q: query.join(' '), force });
 		const embed = await fetch(`https://djsdocs.sorta.moe/v2/embed?${queryString}`).then(res => res.json());
 
-		// Send nothing in case of an error.
+		// Check if docs exist or not.
 		if (!embed || embed.error) {
 			return message.util.send({
 				embed: {
