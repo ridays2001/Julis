@@ -1,5 +1,6 @@
 const { Listener } = require('discord-akairo');
 const { Message, MessageEmbed } = require('discord.js');
+const globalChat = require('../util/globalchat');
 
 class MessageListener extends Listener {
 	constructor() {
@@ -14,6 +15,9 @@ class MessageListener extends Listener {
 	 */
 	async exec(message) {
 		if (message.author.bot) return undefined;
+
+		const channels = this.client.gData.get('global', 'globalChat', []).map(e => e.channel);
+		if (channels.includes(message.channel.id)) globalChat.parse(message, this.client);
 
 		// Send the prefix if someone mentions the bot.
 		const msg = message.content.trim();
