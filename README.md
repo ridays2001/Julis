@@ -1,3 +1,5 @@
+<img src='https://raw.githubusercontent.com/ridays2001/Julis/main/images/Julis.png' align='right' width='300'>
+
 # Julis ❤
 My Discord bot. Made using Node.js, with love ❤.
 The eslint configuration assumes you to be on a wide screen.
