@@ -5,7 +5,7 @@ const { Command } = require('discord-akairo');
 const { inspect } = require('util');
 const vm = require('vm');
 vm.createContext({});
-const { MessageEmbed, Message } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
 
 // To use during eval;
 const { firestore } = require('../../struct/Database');

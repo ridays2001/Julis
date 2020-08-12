@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { MessageEmbed, Message } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
 const qs = require('querystring');
 
