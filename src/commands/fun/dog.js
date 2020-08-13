@@ -5,7 +5,6 @@ const qs = require('querystring');
 
 const { dogBreeds: breedsData } = require('../../util/data');
 const util = require('../../util/util');
-const { emoji } = require('node-emoji');
 
 class DogCommand extends Command {
 	constructor() {
