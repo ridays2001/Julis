@@ -4,9 +4,9 @@
 My Discord bot. Made using Node.js, with ❤.
 <div style='text-align:justify'>
 	The eslint configuration assumes you to be on a wide screen.
-	If your screen size is smaller, you may change the settings - _especially_ the "max-len" setting.
+	If your screen size is smaller, you may change the settings - <em>especially</em> the "max-len" setting.
 	I have tried to personify the bot.
-	So, I may refer to the _bot_ as "she", or as a **human** further in this project.
+	So, I may refer to the <em>bot</em> as "she", or as a <strong>human</strong> further in this project.
 	<br>
 	Thank you.
 </div>
