@@ -4,37 +4,13 @@ const fetch = require('node-fetch');
 const qs = require('querystring');
 
 const { catBreeds: breedsData, countries: countriesData } = require('../../util/data');
+const util = require('../../util/util');
 
 class CatCommand extends Command {
 	constructor() {
 		super('cat', {
 			aliases: ['cat'],
-			args: [
-				{
-					id: 'breed',
-					match: 'option',
-					flag: ['--breed', '--b'],
-					prompt: {
-						start: 'Which breed would the cat belong to?',
-						retry: 'I didn\'t catch the breed you entered. Could you try that again?',
-						cancel: 'Okie. I will not send any cats.',
-						optional: true
-					},
-					type: 'lowercase'
-				},
-				{
-					id: 'country',
-					match: 'option',
-					flag: ['--country', '--c'],
-					prompt: {
-						start: 'Which country would the cat belong to?',
-						retry: 'I didn\'t catch the country of origin entered. Could you type that again?',
-						cancel: 'Okie. I will not send any cats.',
-						optional: true
-					},
-					type: 'lowercase'
-				}
-			],
+			optionFlags: ['--breed', '--b', '--country', '--c'],
 			category: 'fun',
 			description: {
 				content: 'Get information about a cat breed.',
@@ -69,36 +45,126 @@ class CatCommand extends Command {
 
 	/**
 	 * @param {Message} message - The message object.
+	 * @returns {{breed:string, country:string}}
+	 */
+	*args(message) {
+		const breedFlag = message.content.toLowerCase().includes('--b');
+		const countryFlag = breedFlag ? false : message.content.toLowerCase().includes('--c');
+
+		const breed = yield {
+			match: 'option',
+			type: 'lowercase',
+			flag: ['--breed', '--b'],
+			prompt: {
+				start: 'Which breed would the cat belong to?',
+				retry: 'I didn\'t catch the breed you entered. Could you try that again?',
+				cancel: 'Okie. I will not send any cats.',
+				optional: !breedFlag
+			}
+		};
+		const country = yield {
+			match: 'option',
+			flag: ['--country', '--c'],
+			prompt: {
+				start: 'Which country would the cat belong to?',
+				retry: 'I didn\'t catch the country of origin entered. Could you type that again?',
+				cancel: 'Okie. I will not send any cats.',
+				optional: !countryFlag
+			},
+			type: 'lowercase'
+		};
+		return { breed, country };
+	}
+
+	/**
+	 * @param {Message} message - The message object.
 	 * @param {Object} args - The args object.
-	 * @param {string} breed - The breed name to look for.
-	 * @param {string} country - The country name/code to look for.
+	 * @param {string} args.breed - The breed name to look for.
+	 * @param {string} args.country - The country name/code to look for.
 	 */
 	async exec(message, { breed, country }) {
 		// An error message in case if the arguments are invalid.
 		let err = '';
-
-		/* TO - DO : Fix This! */
+		const delay = () => new Promise(res => setTimeout(res, 250));
 
 		// If the country argument is "list", send the list of available countries.
 		if (country && country === 'list') {
 			const list = countriesData.map(c => c.country);
+			const paginated = util.paginate(list);
+			const emojis = ['1️⃣', '2️⃣'];
+
 			const embed = new MessageEmbed();
 			embed.setColor(this.client.prefColor(message.author, message.guild))
 				.setTitle('List of available countries:')
-				.setDescription(`-${list.join('\n-')}`)
+				.setDescription(`・${paginated.items[0].join('\n・')}`)
 				.setTimestamp();
-			return message.channel.send(embed);
+
+			const m = await message.channel.send(embed);
+			for (const emoji of emojis) {
+				await m.react(emoji);
+				await delay();
+			}
+
+			try {
+				await m.awaitReactions(
+					/**
+					 * @param {MessageReaction} r - The reaction.
+					 * @param {User} u - The user.
+					 * @returns {*} - The return value is not important for us here.
+					 */
+					(r, u) => {
+						if (u.id !== message.author.id) return undefined;
+						if (!emojis.includes(r.emoji.name)) return undefined;
+						const index = emojis.indexOf(r.emoji.name);
+						embed.setDescription(`・${paginated.items[index].join('\n・')}`);
+						r.users.remove(u);
+						return m.edit('', embed);
+					}, { time: 6e4, errors: ['time'] }
+				);
+			} catch {
+				return m.reactions.removeAll();
+			}
+			return undefined;
 		}
 
 		// If the breed argument is "list", send the list of available breeds.
 		if (breed && breed === 'list') {
 			const list = breedsData.map(b => b.name);
+			const paginated = util.paginate(list, 12);
+			const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣'];
+
 			const embed = new MessageEmbed();
 			embed.setColor(this.client.prefColor(message.author, message.guild))
 				.setTitle('List of available breeds:')
-				.setDescription(`-${list.join('\n-')}`)
+				.setDescription(`・${paginated.items[0].join('\n・')}`)
 				.setTimestamp();
-			return message.channel.send(embed);
+
+			const m = await message.channel.send(embed);
+			for (const emoji of emojis) {
+				await m.react(emoji);
+				await delay();
+			}
+
+			try {
+				await m.awaitReactions(
+					/**
+					 * @param {MessageReaction} r - The reaction.
+					 * @param {User} u - The user.
+					 * @returns {*} - The return value is not important for us here.
+					 */
+					(r, u) => {
+						if (u.id !== message.author.id) return undefined;
+						if (!emojis.includes(r.emoji.name)) return undefined;
+						const index = emojis.indexOf(r.emoji.name);
+						embed.setDescription(`・${paginated.items[index].join('\n・')}`);
+						r.users.remove(u);
+						return m.edit('', embed);
+					}, { time: 6e4, errors: ['time'] }
+				);
+			} catch {
+				return m.reactions.removeAll();
+			}
+			return undefined;
 		}
 
 		/**
