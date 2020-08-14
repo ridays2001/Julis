@@ -23,6 +23,16 @@ class DogCommand extends Command {
 					const guide = new MessageEmbed();
 					guide.setColor(this.client.prefColor(message.author, message.guild))
 						.setTitle(`Guide to use **${this.id}** command.`)
+						.addField(`\`@Julis ${this.aliases[0]}\``, 'Send information about a random dog breed.')
+						.addField(
+							`\`@Julis ${this.aliases[0]} --breed "<breed>"\``,
+							'Get information about a specific dog breed. [Add quotes for multi word breed names.]'
+						)
+						.addField(
+							`\`@Julis ${this.aliases[0]} --breed\``,
+							'Get information about a specific dog breed. You will be prompted to name the breed.'
+						)
+						.addField(`\`@Julis ${this.aliases[0]} --breed list\``, 'Get the list of available dog breeds.')
 						.setTimestamp();
 					return guide;
 				}
@@ -35,15 +45,11 @@ class DogCommand extends Command {
 	 * @returns {{breed:string}}
 	 */
 	*args(message) {
-		const flag = ['--breed', '--b'].some(e => message.content.toLowerCase().includes(e));
+		const flag = message.content.toLowerCase().includes('--b');
 		const breed = yield {
-			match: 'content',
+			match: 'option',
 			flag: ['--breed', '--b'],
-			type: (_, phrase) => {
-				const input = phrase.split(' ');
-				input.splice(0, 1);
-				return input.join(' ').toLowerCase();
-			},
+			type: 'lowercase',
 			prompt: {
 				start: 'Which breed would the dog belong to?',
 				retry: 'I didn\'t catch the breed you entered. Could you try that again?',
@@ -51,7 +57,6 @@ class DogCommand extends Command {
 				optional: !flag
 			}
 		};
-		console.log(breed);
 		return { breed };
 	}
 
@@ -83,6 +88,8 @@ class DogCommand extends Command {
 				await m.react(emoji);
 				await delay();
 			}
+
+			// Listen to the reactions and switch pages accordingly.
 			try {
 				await m.awaitReactions(
 					/**
@@ -90,18 +97,27 @@ class DogCommand extends Command {
 					 * @param {User} u - The user.
 					 * @returns {*} - The return value is not important for us here.
 					 */
-					(r, u) => {
+					async (r, u) => {
+						// Ignore the reactions if they are made by other users.
 						if (u.id !== message.author.id) return undefined;
+
+						// Ignore the reactions if some other emojis are used.
 						if (!emojis.includes(r.emoji.name)) return undefined;
+
+						// According to our code structure, emoji index = page index.
 						const index = emojis.indexOf(r.emoji.name);
 						embed.setDescription(`・${paginated.items[index].join('\n・')}`);
-						r.users.remove(u);
+
+						// Remove the reaction of the user for good UX.
+						await r.users.remove(u);
 						return m.edit('', embed);
 					}, { time: 6e4, errors: ['time'] }
 				);
 			} catch {
+				// Remove all reactions after time is up.
 				return m.reactions.removeAll();
 			}
+			// End the code here.
 			return undefined;
 		}
 
@@ -111,18 +127,17 @@ class DogCommand extends Command {
 		 * @returns {number} - The breed id.
 		 */
 		const getBreed = breed => {
-			if (!breed || ['ran', 'random'].includes(breed)) {
-				return breedsData[Math.floor(Math.random() * breedsData.length)].id;
-			}
-
+			// Get a breed id if a breed is specified.
 			for (const b of breedsData) {
 				if (b.name.toLowerCase() === breed || b.id === parseInt(breed, 10)) return b.id;
 			}
 
+			// If there are no returns yet, then the breed probably doesn't exist.
 			err = 'Sorry! I couldn\'t find that breed. Here\'s a random one.';
 			return breedsData[Math.floor(Math.random() * breedsData.length)].id;
 		};
 
+		// We make an object of the query parameters for ease.
 		const queryParams = {
 			'size': 'full',
 			'order': 'RANDOM',
@@ -130,11 +145,13 @@ class DogCommand extends Command {
 			'limit': 1
 		};
 
+		// Here, we use query string to encode our query parameters to uri encoding and fetch the data from api.
 		const data = await fetch(`https://api.thedogapi.com/v1/images/search?${qs.stringify(queryParams)}`, {
 			method: 'GET',
 			headers: { 'X-API_KEY': process.env.DOG_API_KEY }
 		}).then(res => res.json());
 
+		// Set the fetched api data to an embed.
 		const embed = new MessageEmbed();
 		embed.setColor(this.client.prefColor(message.author, message.guild))
 			.setAuthor(data[0].breeds[0].name)
@@ -146,6 +163,8 @@ class DogCommand extends Command {
 			)
 			.setImage(data[0].url)
 			.setTimestamp();
+
+		// Send the embed to the channel.
 		return message.channel.send(err, embed);
 	}
 }
