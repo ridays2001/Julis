@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { Message, MessageEmbed, MessageReaction } = require('discord.js');
+const { Message, MessageEmbed, MessageReaction, User } = require('discord.js');
 const fetch = require('node-fetch');
 const qs = require('querystring');
 
@@ -95,7 +95,7 @@ class CatCommand extends Command {
 	 */
 	async exec(message, { breed, country }) {
 		// An error message in case if the arguments are invalid.
-		let err = '';
+		let msg = '';
 		const delay = () => new Promise(res => setTimeout(res, 250));
 
 		// If the country argument is "list", send the list of available countries.
@@ -221,12 +221,13 @@ class CatCommand extends Command {
 			 * @returns {string} - The breed id.
 			 */
 			const getRandom = origin => {
-				if (origin === 'c') err = 'Sorry! I don\'t know about any cats from that country. ';
-				else if (origin === 'b') err = 'Sorry! I don\'t know about that cat breed. ';
-				err += 'Here\'s a random one.';
+				if (origin === 'c') msg = 'Sorry! I don\'t know about any cats from that country. ';
+				else if (origin === 'b') msg = 'Sorry! I don\'t know about that cat breed. ';
+				msg += 'Here\'s a random one.';
 
 				return breedsData[Math.floor(Math.random() * breedsData.length)].id;
 			};
+
 			// If a country is mentioned, fetch a breed from that country.
 			if (country) {
 				let matchedCountry = undefined;
@@ -261,15 +262,10 @@ class CatCommand extends Command {
 				if (b.id === breed || b.name.toLowerCase() === breed) {
 					return b.id;
 				}
-
-				/*
-				* Here, we check if the program goes till the last index possible.
-				* If there is a match, the program would never reach here.
-				* So, it would mean that the entered breed does not exist.
-				* We return a random breed in such scenario.
-				*/
-				if (breedsData.indexOf(b) === (breedsData.length - 1)) return getRandom('b');
 			}
+
+			// If there are no returns yet, then the breed probably doesn't exist.
+			return getRandom('b');
 		};
 
 		// We make an object of the query parameters for ease.
@@ -289,7 +285,7 @@ class CatCommand extends Command {
 		// Wikipedia logo for author image.
 		const wikiLogo = 'https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/800px-Wikipedia-logo-v2.svg.png';
 
-		// Send the fetched api data as an embed.
+		// Set the fetched api data to an embed.
 		const cat = new MessageEmbed();
 		cat.setColor(this.client.prefColor(message.author, message.guild))
 			.setAuthor(`Breed - ${data[0].breeds[0].name} ↗`, wikiLogo, data[0].breeds[0].wikipedia_url)
@@ -305,7 +301,7 @@ class CatCommand extends Command {
 			.setTimestamp();
 
 		// Send the embed to the channel.
-		return message.channel.send(err, cat);
+		return message.channel.send(msg, cat);
 	}
 }
 
