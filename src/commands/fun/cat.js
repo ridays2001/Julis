@@ -26,12 +26,23 @@ class CatCommand extends Command {
 						.setDescription('This command is used to fetch information about a cat breed.')
 						.addField(`\`@Julis ${this.aliases[0]}\``, 'Get information about a random cat breed.')
 						.addField(
-							`\`@Julis ${this.aliases[0]} --breed <breed>\``, 'Get information about a specific breed.'
+							`\`@Julis ${this.aliases[0]} --breed "<breed>"\``,
+							'Get information about a specific breed. [Add quotes for multi word breed names.]'
+						)
+						.addField(
+							`\`@Julis ${this.aliases[0]} --breed\``,
+							'Get information about a specific breed. You will be prompted to name the breed.'
 						)
 						.addField(`\`@Julis ${this.aliases[0]} --breed list\``, 'Get the list of available breeds.')
 						.addField(
-							`\`@Julis ${this.aliases[0]} --country <country>\``,
-							'Get information about a random breed from a specific country.'
+							`\`@Julis ${this.aliases[0]} --country "<country>"\``,
+							'Get information about a random breed from a specific country.' +
+							' [Add quotes for multi word breed name]'
+						)
+						.addField(
+							`\`@Julis ${this.aliases[0]} --country\``,
+							'Get information about a random breed from a specific country.' +
+							' You will be prompted to name the country.'
 						)
 						.addField(
 							`\`@Julis ${this.aliases[0]} --country list\``, 'Get the list of available countries.'
