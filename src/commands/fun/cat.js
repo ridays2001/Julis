@@ -1,5 +1,5 @@
 const { Command } = require('discord-akairo');
-const { Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed, MessageReaction } = require('discord.js');
 const fetch = require('node-fetch');
 const qs = require('querystring');
 
@@ -100,22 +100,28 @@ class CatCommand extends Command {
 
 		// If the country argument is "list", send the list of available countries.
 		if (country && country === 'list') {
+			// Get the list of available countries from the data.
 			const list = countriesData.map(c => c.country);
+
+			// Paginate the list.
 			const paginated = util.paginate(list);
 			const emojis = ['1️⃣', '2️⃣'];
 
+			// Add the first page to the embed.
 			const embed = new MessageEmbed();
 			embed.setColor(this.client.prefColor(message.author, message.guild))
 				.setTitle('List of available countries:')
 				.setDescription(`・${paginated.items[0].join('\n・')}`)
 				.setTimestamp();
 
+			// Send the embed and add reactions to it.
 			const m = await message.channel.send(embed);
 			for (const emoji of emojis) {
 				await m.react(emoji);
 				await delay();
 			}
 
+			// Listen to the reactions and change the page accordingly.
 			try {
 				await m.awaitReactions(
 					/**
@@ -123,39 +129,54 @@ class CatCommand extends Command {
 					 * @param {User} u - The user.
 					 * @returns {*} - The return value is not important for us here.
 					 */
-					(r, u) => {
+					async (r, u) => {
+						// Ignore the reactions if they are made by other users.
 						if (u.id !== message.author.id) return undefined;
+
+						// Ignore the reactions if some other emojis are used.
 						if (!emojis.includes(r.emoji.name)) return undefined;
+
+						// According to our code structure, emoji index = page index.
 						const index = emojis.indexOf(r.emoji.name);
 						embed.setDescription(`・${paginated.items[index].join('\n・')}`);
-						r.users.remove(u);
+
+						// Remove the reaction of the user for good UX.
+						await r.users.remove(u);
 						return m.edit('', embed);
 					}, { time: 6e4, errors: ['time'] }
 				);
 			} catch {
+				// Remove all reactions after time is up.
 				return m.reactions.removeAll();
 			}
+			// End the code here.
 			return undefined;
 		}
 
 		// If the breed argument is "list", send the list of available breeds.
 		if (breed && breed === 'list') {
+			// Get the list of breeds from the data.
 			const list = breedsData.map(b => b.name);
+
+			// Paginate the list.
 			const paginated = util.paginate(list, 12);
 			const emojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣'];
 
+			// Add the first page to the embed.
 			const embed = new MessageEmbed();
 			embed.setColor(this.client.prefColor(message.author, message.guild))
 				.setTitle('List of available breeds:')
 				.setDescription(`・${paginated.items[0].join('\n・')}`)
 				.setTimestamp();
 
+			// Send the embed and add reactions to it.
 			const m = await message.channel.send(embed);
 			for (const emoji of emojis) {
 				await m.react(emoji);
 				await delay();
 			}
 
+			// Listen to the reactions and change the page accordingly.
 			try {
 				await m.awaitReactions(
 					/**
@@ -163,18 +184,27 @@ class CatCommand extends Command {
 					 * @param {User} u - The user.
 					 * @returns {*} - The return value is not important for us here.
 					 */
-					(r, u) => {
+					async (r, u) => {
+						// Ignore the reactions if they are made by other users.
 						if (u.id !== message.author.id) return undefined;
+
+						// Ignore the reactions if some other emojis are used.
 						if (!emojis.includes(r.emoji.name)) return undefined;
+
+						// According to our code structure, emoji index = page index.
 						const index = emojis.indexOf(r.emoji.name);
 						embed.setDescription(`・${paginated.items[index].join('\n・')}`);
-						r.users.remove(u);
+
+						// Remove the reaction of the user for good UX.
+						await r.users.remove(u);
 						return m.edit('', embed);
 					}, { time: 6e4, errors: ['time'] }
 				);
 			} catch {
+				// Remove all reactions after the time is up.
 				return m.reactions.removeAll();
 			}
+			// End the code here.
 			return undefined;
 		}
 
