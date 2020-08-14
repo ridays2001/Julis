@@ -41,13 +41,17 @@ class GlobalChatCommand extends Command {
 		 * @param {TextChannel} channel - The origin channel where the command was used.
 		 */
 		const addConnection = async channel => {
+			// Create a webhook to send messages via the global chat connection.
 			const wb = await channel.createWebhook(message.guild.me.displayName, {
 				avatar: this.client.user.displayAvatarURL(),
 				reason: 'Global chat turned on.'
 			});
+
+			// Push the details to the database.
 			globalChat.push({ wb: wb.id, channel: channel.id });
 			this.client.gData.set('global', 'globalChat', globalChat);
 
+			// Notify others about a new connection.
 			const connections = gc.connectionInfo(this.client, false);
 			channel.send(connections.add);
 			return gc.sendMsg(`<--- ${connections.upd} --->`, channel, this.client);

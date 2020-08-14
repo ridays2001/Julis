@@ -16,6 +16,11 @@ class MessageListener extends Listener {
 	async exec(message) {
 		if (message.author.bot) return undefined;
 
+		/*
+		* Global Chat Section.
+		* Get the list of all channels which have an active global chat connection.
+		* If the current channel is included in the connection, send the message object further to process.
+		*/
 		const channels = this.client.gData.get('global', 'globalChat', []).map(e => e.channel);
 		if (channels.includes(message.channel.id)) globalChat.parse(message, this.client);
 
