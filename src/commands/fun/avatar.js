@@ -8,8 +8,19 @@ class AvatarCommand extends Command {
 			args: [
 				{
 					id: 'user',
-					type: 'user',
-					default: message => message.author
+					/**
+					 * @param {Message} msg - The message object.
+					 * @param {string} phrase - The input phrase argument.
+					 * @returns {User} - The resolved user.
+					*/
+					type: async (msg, phrase) => {
+						const resolvedUser = this.handler.resolver.type('user')(msg, phrase);
+						if (resolvedUser) return resolvedUser;
+						if (!/^[0-9]*$/.test(phrase)) return msg.author;
+						const user = await this.client.users.fetch(phrase);
+						if (!user) return msg.author;
+						return user;
+					}
 				}
 			],
 			category: 'fun',
@@ -56,7 +67,7 @@ class AvatarCommand extends Command {
 			.setTitle(user.tag)
 			.setImage(avatar)
 			.setTimestamp();
-		return message.channel.send(embed);
+		return message.util.send(embed);
 	}
 }
 
