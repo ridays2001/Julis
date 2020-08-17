@@ -12,7 +12,7 @@ class PingCommand extends Command {
 				 * @description - A function to send an embed guide for the command.
 				 * @param {Message} message - The message object.
 				 * @returns {MessageEmbed} - The guide as an embed.
-				*/
+				 */
 				guide: message => {
 					// This sends a guide message for the commands. [Not yet implemented].
 					const guide = new MessageEmbed();
@@ -45,7 +45,8 @@ class PingCommand extends Command {
 		return m.edit(
 			`${message.util.parsed.alias === 'beep' ? 'Boop!' : 'Pong!'}\n` +
 			`I need __**${clientSpeed}ms**__ to respond.\nThe server needs __**${pingSpeed}ms**__ to respond.`
-		).catch(() => undefined); // Catch errors if the message is deleted before the bot edits it.
+		).catch(() => undefined);
+		// Catch errors if the message is deleted before the bot edits it.
 	}
 }
 
