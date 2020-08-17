@@ -33,6 +33,30 @@
 				"ignoreUrls": true
 			}
 		],
-		"guard-for-in": "off"
+		"guard-for-in": "off",
+		"capitalized-comments": [
+			"error",
+			"always",
+			{
+				"ignorePattern": "cSpell"
+			}
+		],
+		"line-comment-position": [
+			"error",
+			{
+				"position": "above"
+			}
+		],
+		"multiline-comment-style": ["error", "starred-block"],
+		"spaced-comment": [
+			"error",
+			"always",
+			{
+				"block": {
+					"markers": ["*"],
+					"balanced": true
+				}
+			}
+		]
     }
 }
