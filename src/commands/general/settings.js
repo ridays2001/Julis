@@ -104,7 +104,9 @@ class SettingsCommand extends Command {
 					'The order does not matter, but make sure that your answer follows after the prefix. ' +
 					'If you want to use a nickname with more than one word, ' +
 					'enter just \`--nickname\` and don\'t provide an answer. I will ask for your nickname again.' +
-					'You can also enter it in quotation marks like --nickname "my nickname".'
+					'You can also enter it in quotation marks like --nickname "my nickname". ' +
+					'If you want to set anything to default value, use `default` as the value and ' +
+					'I will reset it to defaults.'
 				);
 
 				// Listen for responses.
