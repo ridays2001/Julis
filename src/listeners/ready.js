@@ -20,11 +20,16 @@ class ReadyListener extends Listener {
 		logger.info(`Woke up in ${guilds}, with ${users} in ${channels}.`);
 		logger.info(`I am ${this.client.user.tag}.`);
 
-		// Set the bot activity.
-		this.client.user.setActivity('💙Amor Omnia Vincit❤️'); // Latin for "Love conquers everything".
+		/*
+		 * Set the bot activity.
+		 * Amor Omnia Vincit is the latin for "Love conquers everything."
+		 */
+		this.client.user.setActivity('💙Amor Omnia Vincit❤️');
 
-		/* Here, the idea is to record all timestamps whenever I wake up to plan out various commands.
-		Therefore, I send an embed with timestamp to a dedicated channel */
+		/*
+		 * Here, the idea is to record all timestamps whenever the bot wakes up to plan out various commands.
+		 * Therefore, I send an embed with timestamp to a dedicated channel.
+		 */
 
 		const readyEmbed = new MessageEmbed();
 		readyEmbed.setColor(process.env.COLOR)

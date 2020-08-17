@@ -4,7 +4,7 @@ module.exports = {
 	 * @param {Array} collection - The array to paginate.
 	 * @param {number} [pageLength = 10] - The number of items per page.
 	 * @returns {{items:Array<Array>, pages:number, pageLength:number}} - The paginated data.
-	*/
+	 */
 	paginate: (collection, pageLength = 10) => {
 		const pages = Math.ceil(collection.length / pageLength);
 		let startIndex = 0;

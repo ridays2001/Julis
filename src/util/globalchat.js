@@ -69,23 +69,25 @@ const delConnection = async (client, channel, msg, error) => {
 
 	if (!error) {
 		/*
-		* If there is an error, it has been raised either because of channel deletion or webhook deletion.
-		* Either ways, the next statement will raise a breaking error if there is already an error previously.
-		*/
+		 * If there is an error, it has been raised either because of channel deletion or webhook deletion.
+		 * Either ways, the next statement will raise a breaking error if there is already an error previously.
+		 */
 		client.fetchWebhook(globalChat[index].wb).then(wb => wb?.delete('Global chat turned off.'));
 	}
 
 	// Remove the channel object from the saved data.
 	globalChat.splice(index, 1);
-	client.gData.set('global', 'globalChat', globalChat); // Update the db.
+
+	// Update the db.
+	client.gData.set('global', 'globalChat', globalChat);
 
 	// If there is no error, send the connection info string.
 	if (!error) channel.send(connectionString.del);
 
 	/*
-	* I have used 2 levels of errors - 1: Webhook deletion and 2: Channel deletion.
-	* So, I tweak the messages accordingly.
-	*/
+	 * I have used 2 levels of errors - 1: Webhook deletion and 2: Channel deletion.
+	 * So, I tweak the messages accordingly.
+	 */
 	if (error === 1) {
 		sendMsg(
 			`${error ? 'Julis' : msg.author.tag}: <--- Connection terminated. ` +
@@ -115,9 +117,9 @@ const delConnection = async (client, channel, msg, error) => {
  */
 const sendMsg = async (msgString, channel, client, message) => {
 	/*
-	* We need to send a message to all the channels connected in the connection.
-	* So, we loop over each channels present in the database.
-	*/
+	 * We need to send a message to all the channels connected in the connection.
+	 * So, we loop over each channels present in the database.
+	 */
 	globalChat.forEach(async gc => {
 		// Get the channel used in the current iteration.
 		let gcChannel = gc.channel;
@@ -157,7 +159,9 @@ const filter = message => {
 
 	// Convert the message string to an array for easier iteration.
 	const msgArr = message.content.split(' ');
-	const msgs = []; // This will store the final message parts.
+
+	// This will store the final message parts.
+	const msgs = [];
 
 	for (const msg of msgArr) {
 		if (msg.startsWith('<@&')) {
@@ -182,9 +186,9 @@ const filter = message => {
 			let media = false;
 			for (const keyword of mediaKeywords) {
 				/*
-				* We can use array.some method here,
-				* but that would waste a bit of time iterating over extra elements in case of a match.
-				*/
+				 * We can use array.some method here,
+				 * but that would waste a bit of time iterating over extra elements in case of a match.
+				 */
 				if (msg.includes(keyword)) {
 					media = true;
 					break;

@@ -24,7 +24,7 @@ class SettingsCommand extends Command {
 				 * @description - A function to send an embed guide for the command.
 				 * @param {Message} message - The message object.
 				 * @returns {MessageEmbed} - The guide as an embed.
-				*/
+				 */
 				guide: message => {
 					const guide = new MessageEmbed();
 					guide.setColor(this.client.prefColor(message.author, message.guild))

@@ -29,7 +29,7 @@ module.exports = {
 	 * @param {Guild} [guild] - Guild object.
 	 * @param {AkairoClient} [client] - Client object.
 	 * @returns {string} - Color.
-	*/
+	 */
 	prefColor: (user, guild, client) => {
 		// Preference level - exclusive user > strict guild > user > guild > default.
 		const colors = {
