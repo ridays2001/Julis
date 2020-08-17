@@ -60,12 +60,15 @@ class SettingsCommand extends Command {
 		// User preferences section. Sends to user-settings module after taking input.
 		const userPrefs = async () => {
 			const user = message.author;
+
+			// Get saved preferences from the database.
 			const db = {
 				color: this.client.uData.get(user, 'color', undefined),
 				nickname: this.client.uData.get(user, 'nickname', undefined),
 				exclusive: this.client.uData.get(user, 'exclusive', false)
 			};
 
+			// Set the data into an embed.
 			const preferences = new MessageEmbed();
 			preferences.setColor(this.client.prefColor(user))
 				.setAuthor(`Preferences for ${user.tag}`, user.displayAvatarURL())
@@ -74,16 +77,24 @@ class SettingsCommand extends Command {
 				.setTimestamp();
 			if (db.exclusive) preferences.addField('**👑 Exclusive User**', `${db.exclusive ? 'Yes!' : 'No.'}`, false);
 
+			// Send the embed to the channel.
 			message.channel.send('Would you like to edit your preferences? [ Yes / no]', preferences);
 
+			// Listen for responses.
 			const responses = await message.channel.awaitMessages(msg => msg.author.id === message.author.id, {
 				max: 1,
 				time: 10000
 			});
+
+			// Send error message if the user didn't respond.
 			if (!responses || responses.size !== 1) return message.channel.send('Time\'s up!');
+
+			// Get the first message from the responses collection.
 			const response = responses.first();
 
+			// Test response for y, yes, or yea.
 			if (/^y(?:e(?:a|s)?)?$/i.test(response.content)) {
+				// Send instructions for additional arguments.
 				message.channel.send(
 					'To update your preferences, you need to use the prefix followed by your answer:\n' +
 					'\`--nickname <your-nickname>\`\n' +
@@ -96,15 +107,24 @@ class SettingsCommand extends Command {
 					'You can also enter it in quotation marks like --nickname "my nickname".'
 				);
 
+				// Listen for responses.
 				const responses2 = await message.channel.awaitMessages(msg => msg.author.id === message.author.id, {
 					max: 1,
 					time: 30000
 				});
+
+				// Send error message if the user didn't respond.
 				if (!responses2 || responses2.size !== 1) return message.channel.send('Time\'s up!');
+
+				// Get the first message from the responses collection.
 				const response2 = responses2.first();
+
+				// Test the response for cancel.
 				if (response2.content.toLowerCase() === 'cancel') {
 					return message.channel.send('Your preferences were left the same as before.');
 				}
+
+				// Redirect forward after match.
 				return this.handler.handleDirectCommand(response2, response2.content, userSettings, true);
 			}
 			return message.channel.send('Okie. Your preferences were left the same as before.');
@@ -113,16 +133,26 @@ class SettingsCommand extends Command {
 		// Server preferences section. Sends to guild-settings module after taking input.
 		const serverPrefs = async () => {
 			const server = message.guild;
+
+			// Check if the member has the permission to manage the guild.
+			if (!message.member.permissions.has('MANAGE_GUILD')) {
+				return message.channel.send('You do not have the `MANAGE_GUILD` permission required for this action.');
+			}
+
+			// Get the saved settings from the database.
 			const logChannels = this.client.gData.get(server, 'logChannels', {});
 			const db = {
 				color: this.client.gData.get(server, 'color', undefined),
 				strict: this.client.gData.get(server, 'strict', false),
 				prefix: this.client.gData.get(server, 'prefix', '+')
 			};
+
+			// Parse the data into user friendly format.
 			const modLog = logChannels.modLog ? `<#${logChannels.modLog}>` : '<--- Not set --->';
 			const serverLog = logChannels.serverLog ? `<#${logChannels.serverLog}>` : '<--- Not set --->';
 			const memberLog = logChannels.memberLog ? `<#${logChannels.memberLog}>` : '<--- Not set --->';
 
+			// Set the data into an embed.
 			const preferences = new MessageEmbed();
 			preferences.setColor(this.client.prefColor(undefined, server))
 				.setAuthor(`Preferences for ${server.name}`, server.iconURL())
@@ -134,20 +164,24 @@ class SettingsCommand extends Command {
 				.addField('**Strict Mode**', `${db.strict ? 'On' : 'Off'}`)
 				.setTimestamp();
 
-			if (!message.member.permissions.has('MANAGE_GUILD')) {
-				return message.channel.send('You do not have the `MANAGE_GUILD` permission required for this action.');
-			}
-
+			// Send the embed to the channel.
 			message.channel.send('Would you like to edit your server preferences? [ Yes / no ]', preferences);
 
+			// Listen for responses.
 			const responses = await message.channel.awaitMessages(msg => msg.author.id === message.author.id, {
 				max: 1,
 				time: 10000
 			});
+
+			// Send error message if the user didn't respond.
 			if (!responses || responses.size !== 1) return message.channel.send('Time\'s up!');
+
+			// Get the first message from the responses collection.
 			const response = responses.first();
 
+			// Test response for y, yes, or yea.
 			if (/^y(?:e(?:a|s)?)?$/i.test(response.content)) {
+				// Send instructions for additional arguments.
 				message.channel.send(
 					'To update your server settings, you need to use the prefix followed by your answer:\n' +
 					'\`--color <#hex-code or integer>\`\n' +
@@ -160,17 +194,23 @@ class SettingsCommand extends Command {
 					'The order does not matter, but make sure that your answer follows after the prefix.'
 				);
 
+				// Listen for responses.
 				const responses2 = await message.channel.awaitMessages(msg => msg.author.id === message.author.id, {
 					max: 1,
 					time: 30000
 				});
 
+				// Send error message if the user didn't respond.
 				if (!responses2 || responses2.size !== 1) return message.channel.send('Time\'s up!');
+
+				// Get the first message from the responses collection.
 				const response2 = responses2.first();
+
+				// Test the response for cancel.
 				if (response2.content.toLowerCase() === 'cancel') {
 					return message.channel.send('Server preferences were left the same as before.');
 				}
-				// Jump to guild settings module.
+				// Redirect forward after match.
 				return this.handler.handleDirectCommand(response2, response2.content, guildSettings, true);
 			}
 			return message.channel.send('Okie. Server preferences were left the same as before.');
@@ -184,23 +224,27 @@ class SettingsCommand extends Command {
 			return serverPrefs();
 		}
 
-		// Send to user preferences section if the member doesn't have MANAGE_GUILD permission.
+		// Redirect to user preferences section if the member doesn't have the permission to manage the guild.
 		if (!message.member.permissions.has('MANAGE_GUILD')) return userPrefs();
 
-		// Ask where to go if the member has the MANAGE_GUILD permission.
+		// Ask where to redirect if the member has the permission to manage the guild.
 		message.channel.send('Whose preferences would you like to edit?\n\n-- User : `--u`\n-- Server : `--s`');
 		const responses = await message.channel.awaitMessages(msg => msg.author.id === message.author.id, {
 			max: 1,
 			time: 10000
 		});
+
+		// Send error message if the user didn't respond.
 		if (!responses || responses.size !== 1) return message.channel.send('Time\'s up!');
+
+		// Get the first message from the responses collection.
 		const response = responses.first();
 
-		// Redirect to respective sections.
+		// Redirect to respective sections depending upon the response.
 		if (['-u', '- u'].some(u => response.content.toLowerCase().includes(u))) return userPrefs();
 		if (['-s', '- s'].some(s => response.content.toLowerCase().includes(s))) return serverPrefs();
 
-		// Return error if input not found.
+		// Return error if the user didn't respond properly.
 		return message.channel.send(
 			'I was not able to determine whose preferences you want to edit. Could you please try again?'
 		);
