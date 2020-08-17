@@ -17,10 +17,10 @@ class MessageListener extends Listener {
 		if (message.author.bot) return undefined;
 
 		/*
-		* Global Chat Section.
-		* Get the list of all channels which have an active global chat connection.
-		* If the current channel is included in the connection, send the message object further to process.
-		*/
+		 * Global Chat Section.
+		 * Get the list of all channels which have an active global chat connection.
+		 * If the current channel is included in the connection, send the message object further to process.
+		 */
 		const channels = this.client.gData.get('global', 'globalChat', []).map(e => e.channel);
 		if (channels.includes(message.channel.id)) globalChat.parse(message, this.client);
 
@@ -63,8 +63,9 @@ class MessageListener extends Listener {
 				reason: '<--- Start of new DM --->'
 			}).catch(e => console.log(e));
 
+			// Execute the webhook and delete it after use.
 			await UserHook.send(message.content, dm);
-			await UserHook.delete('<--- End of new DM --->'); // Delete the webhook after use.
+			await UserHook.delete('<--- End of new DM --->');
 		}
 	}
 }

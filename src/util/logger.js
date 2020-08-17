@@ -1,9 +1,9 @@
 const winston = require('winston');
 
 /*
-* Winston is a custom logger which is said to be faster than console.log.
-* My use case will be just for testing and decoration.
-*/
+ * Winston is a custom logger which is said to be faster than console.log.
+ * My use case will be just for testing and decoration.
+ */
 
 // Here we set the colors for the logger. Using logger.info() would give cyan logs on console.
 winston.addColors({
@@ -38,10 +38,10 @@ const logger = winston.createLogger({
 		winston.format.colorize({ all: true })
 	),
 	/*
-	* We tell winston to send the logs to the console.
-	* The level is the minimum level of the logs to display on the console.
-	* For more info, refer to https://npmjs.com/package/winston README section.
-	*/
+	 * We tell winston to send the logs to the console.
+	 * The level is the minimum level of the logs to display on the console.
+	 * For more info, refer to https://npmjs.com/package/winston README section.
+	 */
 	transports: [new winston.transports.Console({ level: 'sub' })]
 });
 

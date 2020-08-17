@@ -38,7 +38,9 @@ class EvalCommand extends Command {
 	 * @param {string} args.code - The code to evaluate.
 	 */
 	async exec(message, { code }) {
-		const embed = new MessageEmbed(); // To use during eval.
+		// To use during eval.
+		const embed = new MessageEmbed();
+
 		const token = this.client.token.split('').join('[^]{0,2}');
 		const rev = this.client.token.split('').reverse().join('[^]{0,2}');
 		const filter = new RegExp(`${token}|${rev}`, 'g');
@@ -46,6 +48,7 @@ class EvalCommand extends Command {
 		try {
 			// Evaluate the code.
 			let output = eval(code);
+
 			// Resolve promises.
 			if (
 				output instanceof Promise ||
@@ -56,8 +59,10 @@ class EvalCommand extends Command {
 
 			// Inspect the output and set some basic properties.
 			output = inspect(output, { depth: 0, maxArrayLength: null });
+
 			// Filter the token out from the output.
 			output = output.replace(filter, '[TOKEN]');
+
 			// Remove back ticks and mentions.
 			output = clean(output);
 

@@ -1,3 +1,5 @@
+/* eslint-disable line-comment-position */
+
 const { AkairoClient, CommandHandler, InhibitorHandler, ListenerHandler } = require('discord-akairo');
 const { User, Guild, Message } = require('discord.js');
 const nearestColor = require('nearest-color');

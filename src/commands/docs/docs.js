@@ -31,7 +31,7 @@ class DocsCommand extends Command {
 				 * @description - A function to send an embed guide for the command.
 				 * @param {Message} message - The message object.
 				 * @returns {MessageEmbed} - The guide as an embed.
-				*/
+				 */
 				guide: message => {
 					const guide = new MessageEmbed();
 					guide.setColor(this.client.prefColor(message.author, message.guild))
@@ -85,10 +85,10 @@ class DocsCommand extends Command {
 		embed.color = this.client.prefColor(message.author, message.guild);
 
 		/*
-		* In case of Akairo docs, we change some basic info.
-		* The basic docs which we use for Akairo are Akairo-master, so we change the Akairo-master to Akairo.
-		* The default icon_url does not work, so we replace it with a new version.
-		*/
+		 * In case of Akairo docs, we change some basic info.
+		 * The basic docs which we use for Akairo are Akairo-master, so we change the Akairo-master to Akairo.
+		 * The default icon_url does not work, so we replace it with a new version.
+		 */
 		if (source === 'akairo-master') {
 			embed.author.name = 'Akairo Docs';
 			embed.author.icon_url = 'https://i.imgur.com/0fmL6RE.png';
