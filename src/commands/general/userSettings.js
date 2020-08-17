@@ -116,16 +116,13 @@ class UserSettingsCommand extends Command {
 			exclusive: this.client.uData.get(user, 'exclusive', false)
 		};
 
-		/**
-		 * @description - The logic of this is to prevent running all 3 options, if the user specifies all.
-		 * @returns {*} - Return is not important for us.
-		 */
-		const setData = () => {
-			if (clear) {
-				db.color = undefined;
-				db.nickname = undefined;
-				return message.channel.send('All preferences have been reset to default.');
-			}
+		// If the clear flag is specified, then clear all saved preferences and move on.
+		if (clear) {
+			db.color = undefined;
+			db.nickname = undefined;
+			message.channel.send('All preferences have been reset to default.');
+		} else {
+			// Else check for other flags and set preferences to the db accordingly.
 
 			if (color) {
 				if (color === 'def') {
@@ -134,7 +131,7 @@ class UserSettingsCommand extends Command {
 				} else {
 					db.color = color;
 					const colorName = this.client.color(color).name;
-					return message.channel.send(`Now, I know your favorite color is **${colorName}**.`);
+					message.channel.send(`Now, I know your favorite color is **${colorName}**.`);
 				}
 			}
 
@@ -147,15 +144,13 @@ class UserSettingsCommand extends Command {
 					message.channel.send(`From now on, I will call you **${nickname}**.`);
 				}
 			}
-			return true;
-		};
+		}
 
-		// Set the data.
-		setData();
-
+		// Set the local variables to the database.
 		this.client.uData.set(user, 'color', db.color);
 		this.client.uData.set(user, 'nickname', db.nickname);
 
+		// Set the data into an embed.
 		const finalPreferences = new MessageEmbed();
 		finalPreferences.setColor(db.color ?? process.env.COLOR)
 			.setAuthor(`Preferences for ${user.tag}`, user.displayAvatarURL())
@@ -166,6 +161,7 @@ class UserSettingsCommand extends Command {
 			finalPreferences.addField('👑 **Exclusive User**', `${db.exclusive ? 'Yes!' : 'No.'}`, false);
 		}
 
+		// Send the embed to the channel.
 		return message.channel.send('Here are your final preferences.', finalPreferences);
 	}
 }
