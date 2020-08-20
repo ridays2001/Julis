@@ -3,7 +3,7 @@
 const { Message, TextChannel } = require('discord.js');
 const { AkairoClient } = require('discord-akairo');
 
-const { mediaKeywords } = require('./data').default;
+const { mediaKeywords } = require('./data');
 let globalChat = [];
 
 /**
