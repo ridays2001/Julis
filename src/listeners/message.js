@@ -67,6 +67,7 @@ class MessageListener extends Listener {
 			await UserHook.send(message.content, dm);
 			await UserHook.delete('<--- End of new DM --->');
 		}
+		return undefined;
 	}
 }
 

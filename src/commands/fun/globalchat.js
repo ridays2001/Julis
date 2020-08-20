@@ -31,8 +31,9 @@ class GlobalChatCommand extends Command {
 
 	/**
 	 * @param {Message} message - The message object.
+	 * @returns {*}
 	 */
-	async exec(message) {
+	exec(message) {
 		const globalChat = this.client.gData.get('global', 'globalChat', []);
 		const channels = globalChat.map(e => e.channel);
 

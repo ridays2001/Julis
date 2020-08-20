@@ -63,8 +63,9 @@ class AvatarCommand extends Command {
 	 * @param {Message} message - The message object.
 	 * @param {Object} args - The args object.
 	 * @param {User} args.user - The user whose avatar is requested.
+	 * @returns {*}
 	 */
-	async exec(message, { user }) {
+	exec(message, { user }) {
 		/*
 		 * Adding the dynamic property will automatically resolve the GIF avatars and prevent them from
 		 * being converted to still images.

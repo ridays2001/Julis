@@ -98,7 +98,7 @@ class NPMCommand extends Command {
 		}
 
 		// Extract api data into variables.
-		const latest = body.versions[body['dist-tags'].latest];
+		const latest = body.versions[body['dist-tags'].latest]; // eslint-disable-line
 		const maintainers = manageArr(latest.maintainers.map(user => user.name));
 
 		// Format dependencies into a string.
@@ -134,7 +134,7 @@ class NPMCommand extends Command {
 		const msg = await message.util.send({ embed });
 		msg.react('🗑');
 
-		let react;
+		let react = undefined;
 		try {
 			// Listen to the reaction. If the user reacts with the waste bucket, delete the message.
 			react = await msg.awaitReactions(

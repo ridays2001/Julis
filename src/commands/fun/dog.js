@@ -139,10 +139,10 @@ class DogCommand extends Command {
 
 		// We make an object of the query parameters for ease.
 		const queryParams = {
-			'size': 'full',
-			'order': 'RANDOM',
-			'breed_id': getBreed(breed),
-			'limit': 1
+			size: 'full',
+			order: 'RANDOM',
+			breed_id: getBreed(breed),
+			limit: 1
 		};
 
 		// Here, we use query string to encode our query parameters to uri encoding and fetch the data from api.
