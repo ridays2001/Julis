@@ -1,39 +1,6 @@
 {
-	"extends": "aqua/node",
-	"parserOptions": {
-		"ecmaVersion": 2020
-	},
-	"env": {
-		"amd": true,
-		"es2020": true,
-		"node": true
-	},
+	"extends": "tulip",
     "rules": {
-        "no-confusing-arrow": "off",
-        "no-eq-null": "off",
-        "no-negated-condition": "off",
-        "no-undefined": "off",
-        "linebreak-style":"off",
-        "camelcase":"off",
-        "no-shadow":"off",
-        "no-unused-vars":"off",
-        "prefer-const":"error",
-        "prefer-destructuring": [
-            "off"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-		"quote-props": "off",
-		"max-len": [
-			"error",
-			{
-				"code": 120,
-				"ignoreUrls": true
-			}
-		],
-		"guard-for-in": "off",
 		"capitalized-comments": [
 			"error",
 			"always",
@@ -41,22 +8,6 @@
 				"ignorePattern": "cSpell"
 			}
 		],
-		"line-comment-position": [
-			"error",
-			{
-				"position": "above"
-			}
-		],
-		"multiline-comment-style": ["error", "starred-block"],
-		"spaced-comment": [
-			"error",
-			"always",
-			{
-				"block": {
-					"markers": ["*"],
-					"balanced": true
-				}
-			}
-		]
+		"no-unused-vars": "off"
     }
 }
