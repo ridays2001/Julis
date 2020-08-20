@@ -188,6 +188,7 @@ class SettingsCommand extends Command {
 					'To update your server settings, you need to use the prefix followed by your answer:\n' +
 					'\`--color <#hex-code or integer>\`\n' +
 					'\`--modlog #channel\`\n' +
+					'\`--serverlog #channel\`\n' +
 					'\`--memberlog #channel\`\n' +
 					'\`--prefix <prefix>\`\n' +
 					'\`--strict <on or off>\`\n' +
