@@ -57,7 +57,7 @@ class UserSettingsCommand extends Command {
 			 */
 			type: (msg, phrase) => {
 				if (!phrase.length) return undefined;
-				if ([phrase.toLowerCase().includes('default')]) return 'def';
+				if (phrase.toLowerCase().includes('default')) return 'def';
 				if (!this.handler.resolver.type('color')(msg, phrase)) return undefined;
 				return phrase;
 			},
@@ -105,8 +105,9 @@ class UserSettingsCommand extends Command {
 	 * @param {string} args.color - The color to set.
 	 * @param {string} args.nickname - The nickname to set.
 	 * @param {boolean} args.clear - Whether to reset to defaults or not.
+	 * @returns {*}
 	 */
-	async exec(message, { color, nickname, clear }) {
+	exec(message, { color, nickname, clear }) {
 		const user = message.author;
 
 		// Get saved preferences from the db.
