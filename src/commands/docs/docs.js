@@ -109,7 +109,7 @@ class DocsCommand extends Command {
 		const msg = await message.util.send({ embed });
 		msg.react('🗑');
 
-		let react;
+		let react = undefined;
 		try {
 			// Listen to the reaction. If the user reacts with the waste bucket, delete the message.
 			react = await msg.awaitReactions(

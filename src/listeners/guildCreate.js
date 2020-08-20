@@ -16,7 +16,7 @@ class GuildCreateListener extends Listener {
 	async exec(guild) {
 		// Cache the guild owner.
 		const guildOwner = await this.client.users.fetch(guild.ownerID);
-		const me = guild.me;
+		const { me } = guild;
 
 		// Get the invite link of the server.
 		let invite = undefined;

@@ -41,6 +41,14 @@ class EvalCommand extends Command {
 		// To use during eval.
 		const embed = new MessageEmbed();
 
+		/**
+		 * @description - This function escapes out back ticks ` and @ from the eval output.
+		 * @param {string} text - The text to clean
+		 * @returns {string} - Filtered text.
+		 */
+		const clean = text => text.replace(/`/g, `\`${String.fromCharCode(8203)}`)
+			.replace(/@/g, `@${String.fromCharCode(8203)}`);
+
 		const token = this.client.token.split('').join('[^]{0,2}');
 		const rev = this.client.token.split('').reverse().join('[^]{0,2}');
 		const filter = new RegExp(`${token}|${rev}`, 'g');
@@ -52,7 +60,7 @@ class EvalCommand extends Command {
 			// Resolve promises.
 			if (
 				output instanceof Promise ||
-				(Boolean(output) && typeof output.then === 'function' && typeof output.catch === 'function')
+				(output && typeof output.then === 'function' && typeof output.catch === 'function')
 			) {
 				output = await output;
 			}
@@ -69,17 +77,6 @@ class EvalCommand extends Command {
 			return message.channel.send(`${output}`, { split: '\n', code: 'js' });
 		} catch (error) {
 			return message.channel.send(`The following error occurred \`\`\`js\n${error}\`\`\``);
-		}
-
-		/**
-		 * @description - This function escapes out back ticks ` and @ from the eval output.
-		 * @param {string} text - The text to clean
-		 * @returns {string} - Filtered text.
-		 */
-		function clean(text) {
-			return text
-				.replace(/`/g, `\`${String.fromCharCode(8203)}`)
-				.replace(/@/g, `@${String.fromCharCode(8203)}`);
 		}
 	}
 }

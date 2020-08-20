@@ -1,5 +1,5 @@
 const { Firebase } = require('firestore-db');
-const env = process.env;
+const { env } = process;
 
 // Initialize a new database instance.
 const db = new Firebase({

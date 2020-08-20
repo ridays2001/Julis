@@ -44,8 +44,9 @@ class ReloadCommand extends Command {
 	 * @param {Object} args - The arguments object.
 	 * @param {string} args.type - The type of modules to reload.
 	 * @param {AkairoModule} args.module - The module to reload.
+	 * @returns {*}
 	 */
-	async exec(message, { type, module }) {
+	exec(message, { type, module }) {
 		// Log it to the console.
 		logger.info('<--- Reload --->');
 

@@ -56,8 +56,9 @@ const connectionInfo = (client, deleted) => {
  * @param {TextChannel} channel - The channel object.
  * @param {Message} msg - Origin message object.
  * @param {number} [error] - Whether there was an error or not.
+ * @returns {*}
  */
-const delConnection = async (client, channel, msg, error) => {
+const delConnection = (client, channel, msg, error) => {
 	// Get an array of channels which are connected.
 	const channels = globalChat.map(gc => gc.channel);
 
@@ -115,7 +116,7 @@ const delConnection = async (client, channel, msg, error) => {
  * @param {AkairoClient} client - The client object.
  * @param {Message} message - The message object.
  */
-const sendMsg = async (msgString, channel, client, message) => {
+const sendMsg = (msgString, channel, client, message) => {
 	/*
 	 * We need to send a message to all the channels connected in the connection.
 	 * So, we loop over each channels present in the database.
