@@ -748,9 +748,89 @@ const mediaKeywords = [
 	'giphy'
 ];
 
+const categories = {
+	docs: {
+		display: '<:docs:746623948552404993> Documentation Section',
+		description: 'This section is for developers.' +
+			' It allows them to quickly refer to various JavaScript documentation.',
+		emoji: '746623948552404993',
+		id: 'docs',
+		/**
+		 * @param {Message} msg - The member object.
+		 * @returns {boolean} - Whether to include this category or not.
+		 */
+		validation: msg => {
+			const modules = msg.client.uData.get(msg.author.id, 'modules', {});
+			return modules.programmer || msg.client.isOwner(msg.author);
+		}
+	},
+	fun: {
+		display: '<:fun:746616697871401044> Fun Section',
+		description: 'This section includes all fun commands which help relieve boredom.',
+		emoji: '746616697871401044',
+		id: 'fun',
+		/**
+		 * @returns {true} - Always show this category.
+		 */
+		validation: () => true
+	},
+	general: {
+		display: '<:general:746616698152419418> General Section',
+		description: 'This section has all the general bot-related commands.',
+		emoji: '746616698152419418',
+		id: 'general',
+		/**
+		 * @returns {true} - Always show this category.
+		 */
+		validation: () => true
+	},
+	judiciary: {
+		display: '<:judiciary:746623948980092935> Judiciary Section',
+		description: 'This section includes all the server judiciary commands.',
+		emoji: '746623948980092935',
+		id: 'judiciary',
+		/**
+		 * @returns {true} - Always show this category.
+		 */
+		validation: () => true
+	},
+	mod: {
+		display: '<:mod:746623948728303687> Moderator Section',
+		description: 'This section includes all the moderation commands for server moderation.',
+		emoji: '746623948728303687',
+		id: 'mod',
+		/**
+		 * @param {Message} msg - The member object.
+		 * @returns {boolean} - Whether to include this category or not.
+		 */
+		validation: msg => msg.member.permissions.has('MANAGE_GUILD') || msg.client.isOwner(msg.author)
+	},
+	owner: {
+		display: '<:owner:746616698504872056> Owner Section',
+		description: 'This section includes all commands which can only be used by my developers.' +
+			' The commands provide full unristricted access to my system.',
+		emoji: '746616698504872056',
+		id: 'owner',
+		/**
+		 * @param {Message} msg - The member object.
+		 * @returns {boolean} - Whether to include this category or not.
+		 */
+		validation: msg => msg.client.isOwner(msg.author)
+	},
+	Music: {
+		display: 'Music Section',
+		description: 'This section includes all commands related to music.',
+		emoji: '🎵',
+		id: 'music',
+		validation: () => true
+	}
+};
+
+
 module.exports = {
 	catBreeds,
 	countries,
 	dogBreeds,
-	mediaKeywords
+	mediaKeywords,
+	categories
 };
