@@ -33,7 +33,7 @@ class MDNCommand extends Command {
 			regex: /^(?:mdn,) (.+)/i,
 			category: 'docs',
 			description: {
-				content: 'Search MDN documentation for guidance.',
+				content: 'Search MDN javascript documentation for quick reference.',
 				/**
 				 * @description - A function to send an embed guide for the command.
 				 * @param {Message} message - The message object.

@@ -26,7 +26,7 @@ class DocsCommand extends Command {
 			],
 			category: 'docs',
 			description: {
-				content: 'Search in documentation for guidance.',
+				content: 'Search Discord.js documentation for quick reference.',
 				/**
 				 * @description - A function to send an embed guide for the command.
 				 * @param {Message} message - The message object.
