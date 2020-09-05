@@ -52,7 +52,7 @@ class ImitateCommand extends Command {
 		const wb = await message.channel.createWebhook(mem.displayName, {
 			avatar: mem.user.displayAvatarURL({ dynamic: true }),
 			reason: `Imitate command by ${message.author.tag}.`
-		}).catch(e => console.log(e));
+		}).catch(console.log);
 
 		// Send the message with that webhook.
 		await wb.send(msg);

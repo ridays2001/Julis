@@ -110,12 +110,12 @@ class ClearCommand extends Command {
 
 		// Delete the filtered messages.
 		await message.channel.bulkDelete(msgs)
-			.catch(err => console.log(err));
+			.catch(console.log);
 
 		// Send the confirmation message and then delete it after 5 seconds.
 		return message.channel.send(msg).then(m => {
 			m.delete({ timeout: 5e3, reason: 'Bulk delete confirmation' })
-				.catch(err => console.log(err));
+				.catch(console.log);
 		});
 	}
 }
