@@ -25,7 +25,7 @@ class NPMCommand extends Command {
 			],
 			category: 'docs',
 			description: {
-				content: 'Search for npm packages.',
+				content: 'Search for npm packages in the npm registry.',
 				/**
 				 * @description - A function to send an embed guide for the command.
 				 * @param {Message} message - The message object.
