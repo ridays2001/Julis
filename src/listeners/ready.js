@@ -1,6 +1,7 @@
 const { Listener } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
-const logger = require('../util/logger');
+
+const logger = require('../../../util/logger');
 
 class ReadyListener extends Listener {
 	constructor() {
