@@ -800,10 +800,10 @@ const categories = {
 		emoji: '746623948728303687',
 		id: 'mod',
 		/**
-		 * @param {Message} msg - The member object.
+		 * @param {Message} msg - The message object.
 		 * @returns {boolean} - Whether to include this category or not.
 		 */
-		validation: msg => msg.member.permissions.has('MANAGE_GUILD') || msg.client.isOwner(msg.author)
+		validation: msg => msg.client.isOwner(msg.author) || msg.member?.permissions.has('MANAGE_GUILD')
 	},
 	owner: {
 		display: '<:owner:746616698504872056> Owner Section',
@@ -812,17 +812,24 @@ const categories = {
 		emoji: '746616698504872056',
 		id: 'owner',
 		/**
-		 * @param {Message} msg - The member object.
+		 * @param {Message} msg - The message object.
 		 * @returns {boolean} - Whether to include this category or not.
 		 */
 		validation: msg => msg.client.isOwner(msg.author)
 	},
-	Music: {
-		display: 'Music Section',
+	music: {
+		display: '<:music:749148099007610930> Music Section',
 		description: 'This section includes all commands related to music.',
-		emoji: '🎵',
+		emoji: '749148099007610930',
 		id: 'music',
-		validation: () => true
+		/**
+		 * @param {Message} msg - The message object.
+		 * @returns {boolean} - Show this category only in guilds.
+		 */
+		validation: msg => {
+			if (msg.guild) return true;
+			return msg.client.isOwner(msg.author);
+		}
 	}
 };
 
