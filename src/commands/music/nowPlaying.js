@@ -38,16 +38,25 @@ class NowPlayingCommand extends Command {
 			.setAuthor(this.client.prefName(message), message.author.displayAvatarURL())
 			.setTimestamp();
 
+		// Get the music queue of the server.
 		const serverQueue = this.client.music.queues.get(message.guild.id);
+
+		// Get the currently playing song.
 		const current = await serverQueue.current();
 
+		// If there is no song being played, inform that to the member.
 		if (!current?.track) {
 			embed.setDescription('I\'m not playing any music in this server!');
 			return message.channel.send(embed);
 		}
 
+		// Decode the song.
 		const song = await this.client.music.decode(current.track);
+
+		// Get the progress out of 10.
 		const progress = Math.round((current.position / song.length) * 10);
+
+		// Make a progress bar with the song url as the marker markdown links - [link text](link).
 		let progressBar = ['['];
 		for (let i = 0; i < 10; i++) {
 			progressBar.push('▬');
@@ -56,8 +65,10 @@ class NowPlayingCommand extends Command {
 		progressBar = progressBar.join('');
 
 		if (serverQueue.player.paused) {
+			// If the music is paused, add an indicator that the music is paused.
 			embed.setDescription(`⏸ Paused:\n・[${song.title}](${song.uri})\n${progressBar}`);
 		} else {
+			// Else show the currently playing song's decoded info.
 			embed.setDescription(`⏯ Now playing:\n・[${song.title}](${song.uri})\n${progressBar}`);
 		}
 		embed.setThumbnail(`https://i.ytimg.com/vi/${song.identifier}/hqdefault.jpg`);
