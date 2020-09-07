@@ -32,14 +32,16 @@ class StopCommand extends Command {
 	 * @returns {*}
 	 */
 	async exec(message) {
+		// Check if the member is in a voice channel or not.
 		if (!message.member.voice || !message.member.voice.channel) {
 			return message.channel.send(
 				`${this.client.prefName(message)}, You need to be in the music channel to stop the music!`
 			);
 		}
 
+		// Stop the music gracefully.
 		await musicExit(message.guild.id, this.client);
-		return message.channel.send('Stopped playing.');
+		return message.channel.send('⏹ Stopped playing.');
 	}
 }
 
