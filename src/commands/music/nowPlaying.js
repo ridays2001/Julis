@@ -54,7 +54,11 @@ class NowPlayingCommand extends Command {
 		const song = await this.client.music.decode(current.track);
 
 		// Get the progress out of 10.
-		const progress = Math.round((current.position / song.length) * 10);
+		let progress = Math.round((current.position / song.length) * 10);
+
+		// Solve the array index limitations.
+		if (progress === 0) progress = 1;
+		if (progress === 10) progress = 9;
 
 		// Make a progress bar with the song url as the marker markdown links - [link text](link).
 		let progressBar = ['['];
