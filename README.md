@@ -22,3 +22,7 @@ I will be uploading the code in such a way that the parts which are used everywh
 ## Firestore DB Setup
 + The **FSPID** is your _Firestore Project ID_, **FSCEmail** is your _Firestore Client Email_ and **FSPKey** is your _Firestore Private Key_.
 + These credentials can be downloaded in a JSON format from your firebase console. [Instructions coming later]
+
+## Music Server Setup
++ You need to install java jdk v13, redis database server, and download lavalink jar file.
++ Just google search for them and you'll find them. [Instructions coming later]
