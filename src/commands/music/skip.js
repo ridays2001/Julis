@@ -91,7 +91,7 @@ class SkipCommand extends Command {
 		trackList = [currentSong.track].concat(trackList);
 
 		// Check if there is a dj role set for the server.
-		const djRole = this.client.channels.cache.get(this.client.gData.get(message.guild, 'djRole', undefined));
+		const djRole = message.guild.roles.cache.get(this.client.gData.get(message.guild, 'djRole', undefined));
 
 		// Cache the size of the voice channel.
 		const vcSize = message.member.voice.channel.members.size;
@@ -99,9 +99,9 @@ class SkipCommand extends Command {
 		// Store whether a skip is allowed in this scenario or not. Decided by multiple factors.
 		let skipPerms = false;
 
-		if (djRole) {
+		if (djRole && message.member.roles.cache.has(djRole.id)) {
 			// Factor 1: the member has a dj role.
-			skipPerms = message.member.roles.cache.has(djRole);
+			skipPerms = true;
 		} else if (vcSize < 3) {
 			// Factor 2: the member is alone in the music channel. [Bot + Member = 2 members].
 			skipPerms = true;
