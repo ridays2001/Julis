@@ -152,10 +152,10 @@ class SkipCommand extends Command {
 		}
 
 		// Reset the votes to prevent chaos.
-		this.client.musica.votes.set(message.guild.id, 0);
+		this.client.musica.votes.delete(message.guild.id);
 
 		// Turn off the music loop.
-		this.client.musica.loop.set(message.guild.id, false);
+		this.client.musica.loop.delete(message.guild.id);
 
 		/**
 		 * @description - The decoded array of songs which are skipped.
