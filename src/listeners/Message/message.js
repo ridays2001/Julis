@@ -1,6 +1,7 @@
 const { Listener } = require('discord-akairo');
 const { Message, MessageEmbed } = require('discord.js');
-const globalChat = require('../util/globalchat');
+
+const globalChat = require('../../util/globalchat');
 
 class MessageListener extends Listener {
 	constructor() {

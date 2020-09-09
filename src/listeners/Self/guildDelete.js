@@ -1,6 +1,7 @@
 const { Listener } = require('discord-akairo');
 const { MessageEmbed, Guild } = require('discord.js');
-const logger = require('../util/logger');
+
+const logger = require('../../util/logger');
 
 class GuildDeleteListener extends Listener {
 	constructor() {
