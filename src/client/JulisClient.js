@@ -14,10 +14,8 @@ const { prefColor, prefName } = require('../util/preferences');
 class JulisClient extends AkairoClient {
 	constructor() {
 		super({ ownerID: process.env.OwnerID }, {
-			disableEveryone: true,
+			disableMentions: 'everyone',
 			partials: ['MESSAGE', 'CHANNEL'], // Listen to uncached stuff.
-			// Disable the events mentioned below to optimise bot speed.
-			disabledEvents: ['CHANNEL_PINS_UPDATE', 'GUILD_INTEGRATIONS_UPDATE', 'PRESENCE_UPDATE', 'TYPING_START']
 		});
 
 		/**

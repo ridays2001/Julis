@@ -1,5 +1,8 @@
 <img src='https://raw.githubusercontent.com/ridays2001/Julis/main/images/Julis.png' align='right' width='350'>
 
+# Project Abandoned.
+This project will not be updated anymore. I have some plans to rewrite Julis sometime later.
+
 # Julis ❤
 My Discord bot. Made using Node.js, with ❤.
 <div style='text-align:justify'>
